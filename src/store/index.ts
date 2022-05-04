@@ -5,13 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-  },
-  getters: {
+    id : 1,
+    users: [] as any
   },
   mutations: {
+    userRegister: (state, user) => {
+      state.users.push(user),
+      state.id = state.users.length,
+      state.id++
+    },
   },
   actions: {
-  },
-  modules: {
+    createUser(context, user) {
+      context.commit("userRegister", user)
+    }
   }
 })

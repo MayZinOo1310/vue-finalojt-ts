@@ -12,6 +12,11 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": "./src", 
+    "experimentalDecorators": true, 
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
     "types": [
       "webpack-env"
     ],
