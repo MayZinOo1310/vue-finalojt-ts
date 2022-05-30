@@ -96,9 +96,9 @@
         <button
           class="btn btn-danger col-md-2 m-3"
           type="reset"
-          @click="resetHandler"
+          @click="backMode == true ? back() : ''"
         >
-          {{ this.btnChange }}
+          {{ backMode ? "Back" : "Clear" }}
         </button>
         <button
           type="submit"
@@ -126,96 +126,86 @@ import UserAge from "./UserAge.vue";
 
 @Component({
   components: {
-    UserAge
-  }
+    UserAge,
+  },
 })
-
 export default class UserRegister extends Vue {
-  private id: string = this.$store.state.id
-  private name: string =''
-  private gender: string =''
-  private email: string =''
-  private address: string =''
-  private userRole: string =''
-  private dob: string =''
-  private btnChange = 'Clear';
-  private disabled = 0;
-  private name_error: string =''
-  private gender_error: string =''
-  private email_error: string =''
-  private address_error: string =''
+  private id: string = this.$store.state.id;
+  private name: string = "";
+  private gender: string = "";
+  private email: string = "";
+  private address: string = "";
+  private userRole: string = "";
+  private dob: string = "";
+  private disabled = 0 as number | string;
+  private name_error: string = "";
+  private gender_error: string = "";
+  private email_error: string = "";
+  private backMode = false as boolean;
   private userList: any = {
-    id:"",
+    id: "",
     name: "",
     gender: "",
     email: "",
     address: "",
     dob: "",
     userRole: "",
-  }
+  };
   validate() {
-      if (this.name == "") {
-        this.name_error = "This is required field";
-      } else {
-        this.name_error = "";
-      }
+    if (this.name == "") {
+      this.name_error = "This is required field";
+    } else {
+      this.name_error = "";
+    }
 
-      if (this.gender == "") {
-        this.gender_error = "This is required field";
-      } else {
-        this.gender_error="";
-      }
+    if (this.gender == "") {
+      this.gender_error = "This is required field";
+    } else {
+      this.gender_error = "";
+    }
 
-      if (this.email.search("@") == -1) {
-        this.email_error = "This is required field";
-      } else {
-        this.email_error ="";
-      }
-
-      if (this.address =="") {
-        this.address_error = "This is required field";
-      } else {
-        this.address_error = "";
-      }
-      if (
-        this.name_error == "" &&
-        this.email_error == "" &&
-        this.gender_error == "" &&
-        this.address_error == ""
-      ) {
-        this.disabled = 1;
-      } else {
-        this.disabled = 0;
-      }
-      if (this.disabled) {
-        this.btnChange = "Back";
-      } else {
-        this.btnChange = "Clear";
-      }
+    if (this.email.search("@") == -1) {
+      this.email_error = "This is required field";
+    } else {
+      this.email_error = "";
     }
-    register() {
-      if (this.disabled == 1) {
-        this.userList.id = this.id;
-        this.userList.name = this.name;
-        this.userList.gender = this.gender;
-        this.userList.email = this.email;
-        this.userList.address = this.address;
-        this.userList.dob = this.dob;
-        this.userList.userRole = this.userRole;
-        this.$store.commit("userRegister", this.userList);
-        this.$router.push({ path: "/" });
-      }
+    if (
+      this.name_error == "" &&
+      this.email_error == "" &&
+      this.gender_error == ""
+    ) {
+      this.disabled = 1;
+    } else {
+      this.disabled = 0;
     }
-    resetHandler() {
-      (this.name = ""),
-        (this.email = ""),
-        (this.gender = ""),
-        (this.address = ""),
-        (this.userRole = "")
+    if (this.name != "" && this.email != "") {
+      this.disabled = 0;
+      this.backMode = true;
     }
-    dateHandler(e) : void {
-      this.dob = e;
+  }
+  register() {
+    if (this.disabled == 1) {
+      this.userList.id = this.id;
+      this.userList.name = this.name;
+      this.userList.gender = this.gender;
+      this.userList.email = this.email;
+      this.userList.address = this.address;
+      this.userList.dob = this.dob;
+      this.userList.userRole = this.userRole;
+      this.$store.commit("userRegister", this.userList);
+      this.$router.push({ path: "/" });
     }
+  }
+  resetHandler() {
+    (this.name = ""),
+      (this.email = ""),
+      (this.gender = ""),
+      (this.address = ""),
+      (this.userRole = "");
+  }
+  dateHandler(e): void {
+    this.dob = e;
+  }
 }
 </script>
 <style>
